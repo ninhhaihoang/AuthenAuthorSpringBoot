@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link href="../static/css/login_form.css" th:href="@{/css/login_form.css}" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css"
+        th:href="@{https://use.fontawesome.com/releases/v5.0.8/css/all.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Include _menu.html -->
+    <th:block th:include="/_menu"></th:block>
+    <!-- /login?error=true -->
+    <div th:if="${#request.getParameter('error') == 'true'}" style="color:red;margin:10px 0px;">
+        Login Failed!!!<br />
+        Reason :
+        <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
+            th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION')}">
+            Static summary
+        </span>
+
+    </div>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form th:action="@{/process_register}" method="post" th:object="${user}">
+                <h1>Create Account</h1>
+                <div class="social-container">
+                    <a class="social" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="social" href="#"><i class="fab fa-google-plus-g"></i></a>
+                    <a class="social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <input placeholder="First Name" type="text" th:field="*{firstName}" required />
+                <input placeholder="Last Name" type="text" th:field="*{lastName}" />
+                <input placeholder="Email" type="email" th:field="*{email}" required />
+                <input placeholder="Password" type="password" th:field="*{password}" required minlength="6" />
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form action="/login_check" method="post">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a class="social" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="social" href="#"><i class="fab fa-google-plus-g"></i></a>
+                    <a class="social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <input placeholder="Email" type="email" required autofocus />
+                <input placeholder="Password" type="password" required />
+                <a href="#">Forgot your password?</a>
+                <input name="_csrf" type="hidden" value="7d177c3f-d8a3-46b9-ac96-e9edd6c58802">
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start journey with us</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../static/js/jquery-3.6.0.js" th:src="@{../static/js/jquery-3.6.0.js}"></script>
+    <script src="../static/js/login_form.js" th:src="@{/js/login_form.js}"></script>
+</body>
+
+</html>
